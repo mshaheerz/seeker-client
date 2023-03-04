@@ -125,7 +125,6 @@ function Input() {
     setSelectedFile(null);
     setShowEmojis(false);
     setPostRefresh(!postRefresh);
-    console.log(postRefresh);
   };
 
   const addEmoji = (e: any) => {

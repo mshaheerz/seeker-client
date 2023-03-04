@@ -5,8 +5,12 @@ import {
 } from "@heroicons/react/24/solid";
 import { useEffect, useState } from "react";
 import { getCompanyJobs } from "@/config/companyendpoints";
-import { ActiveandInactiveJob } from "@/config/endpoints";
-
+import { ActiveandInactiveJob, deleteJob } from "@/config/endpoints";
+import { Edit } from "@mui/icons-material";
+import { Delete } from "@mui/icons-material";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
+import swal from "sweetalert";
 
 function ShowJob() {
   const router = useRouter();
@@ -14,6 +18,31 @@ function ShowJob() {
   const [jobs, setJobs] = useState([]);
   const [jobActive,setJobActive] = useState('');
   const [refresh,setRefresh] = useState(false);
+  const handleDelete= async(job:any)=>{
+    swal({
+      title: "Are you sure?",
+      text: "Do you delete the job?",
+      icon: "warning",
+      buttons: ["cancel", "ok"],
+      dangerMode: true,
+    }).then(async (willDelete) => {
+      if (willDelete) {
+        await deleteJob(job?._id,{"companytoken":localStorage.getItem("companytoken")})
+        setRefresh(!refresh)
+        toast.success(`job successfully deleted`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "dark",
+        });
+      }
+    });
+
+  }
   useEffect(() => {
     async function invoke() {
       const data = await getCompanyJobs({
@@ -121,8 +150,8 @@ function ShowJob() {
                   
                 </div>
                 <div className="relative">
-                <EllipsisHorizontalCircleIcon className="text-white h-10 cursor-pointer" onClick={()=>router.push(`company/editjob/${job._id}`)} />
-                
+                <Edit className="text-white h-10 cursor-pointer hover:text-blue-600" onClick={()=>router.push(`company/editjob/${job._id}`)} />
+                <Delete className="text-white h-10 cursor-pointer hover:text-red-600" onClick={()=>handleDelete(job)} />
                   
                   </div>
                   

@@ -1,57 +1,57 @@
 import Head from "next/head";
 
 import SidebarCompany from "@/components/Company/Layouts/SidebarCompany";
-import { BriefcaseIcon, EllipsisVerticalIcon,BuildingOffice2Icon } from "@heroicons/react/24/solid";
+import { BriefcaseIcon, BuildingOffice2Icon } from "@heroicons/react/24/solid";
 import { Logout } from "@mui/icons-material";
 import { useEffect } from "react";
 import { companyAuthentication } from "@/config/companyendpoints";
 import { useRouter } from "next/router";
-import swal from 'sweetalert'
-import { companyInfo } from '@/redux/companyinfo'
+import swal from "sweetalert";
+import { companyInfo } from "@/redux/companyinfo";
 import { useDispatch, useSelector } from "react-redux";
 import PostJobComponent from "@/components/Company/Job/PostJob";
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 function PostJob() {
-  let setCompanydetails = useDispatch()
-    //companyInfo
+  const setCompanydetails = useDispatch();
+  //companyInfo
 
-  let companyDetails = useSelector((state:any)=>state.companyinfo.value)
-  const router = useRouter()
+  const companyDetails = useSelector((state: any) => state.companyinfo.value);
+  const router = useRouter();
   useEffect(() => {
-    async function invoke(){
-        if(localStorage.getItem("companytoken")){
-            const data = await companyAuthentication({"companytoken":localStorage.getItem("companytoken")})
-            setCompanydetails(companyInfo(data._doc))
-            if(data.status ==="failed"){
-              router.push('/company/login')
-            }else if(data.auth){
-                router.push('/company/postjob')
-            }else{
-                router.push('/company/login')
-            }
-        }else{
-            router.push('/company/login')
+    async function invoke() {
+      if (localStorage.getItem("companytoken")) {
+        const data = await companyAuthentication({
+          companytoken: localStorage.getItem("companytoken"),
+        });
+        setCompanydetails(companyInfo(data._doc));
+        if (data.status === "failed") {
+          router.push("/company/login");
+        } else if (data.auth) {
+          router.push("/company/postjob");
+        } else {
+          router.push("/company/login");
         }
-        
+      } else {
+        router.push("/company/login");
+      }
     }
     invoke();
+  }, []);
 
- }, [])
-
- const logout=()=>{
-  swal({
-    title: "Are you sure?",
-    text: "Once logout, you need to add credentials when login",
-    icon: "warning",
-    buttons: ["cancel","ok"],
-    dangerMode: true,
-  })
-  .then((willDelete) => {
-    if (willDelete) {
-      localStorage.removeItem('companytoken')
-      router.push('/company/login')
-    } 
-  });
-}
+  const logout = () => {
+    swal({
+      title: "Are you sure?",
+      text: "Once logout, you need to add credentials when login",
+      icon: "warning",
+      buttons: ["cancel", "ok"],
+      dangerMode: true,
+    }).then((willDelete) => {
+      if (willDelete) {
+        localStorage.removeItem("companytoken");
+        router.push("/company/login");
+      }
+    });
+  };
   return (
     <>
       <Head>
@@ -70,19 +70,29 @@ function PostJob() {
               <BriefcaseIcon className="h-7 text-white" />
             </div>
             Jobs
-            <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto" onClick={()=>router.push('/company/profile')}>
-            <BuildingOffice2Icon className="h-10 w-10 rounded-full xl:mr-2.5"/>
+            <div
+              className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto"
+              onClick={() => router.push("/company/profile")}
+            >
+              <BuildingOffice2Icon className="h-10 w-10 rounded-full xl:mr-2.5" />
               <div className="hidden xl:inline leading-4">
-                <p className="font-medium text-base">{companyDetails?.company}</p>
-                <p className="text-[#6e767d] text-sm">{companyDetails?.email}</p>
+                <p className="font-medium text-base">
+                  {companyDetails?.company}
+                </p>
+                <p className="text-[#6e767d] text-sm">
+                  {companyDetails?.email}
+                </p>
               </div>
-              
             </div>
-            <Logout onClick={logout} className=" h-5 pl-4 mt-4 w-9 rounded-full xl:mr-2.5 cursor-pointer  "/>
+            <Logout
+              onClick={logout}
+              className=" h-5 pl-4 mt-4 w-9 rounded-full xl:mr-2.5 cursor-pointer  "
+            />
           </div>
           <PostJobComponent />
           <div className="pb-72"></div>
         </div>
+        <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

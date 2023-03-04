@@ -18,6 +18,7 @@ import ChatBoxCompany from "@/components/Company/ChatBoxCompany";
 import { io } from "socket.io-client";
 import { UserChats } from "@/config/endpoints";
 import { AppContext } from "@/context/AppContext";
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 function MessagePage() {
 
   let setCompanydetails = useDispatch()
@@ -139,12 +140,12 @@ function MessagePage() {
           </div>
           <div className=" flex items-center justify-start">
            <ChatList setCurrentChat={setCurrentChat} chats={chats}  companyDetails={companyDetails} />
-
            <ChatBoxCompany recieveMessage={recieveMessage} setSendMessage={setSendMessage} chat={currentChat} companyDetails={companyDetails} />
      
     </div>
           <div className=""></div>
         </div>
+        <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

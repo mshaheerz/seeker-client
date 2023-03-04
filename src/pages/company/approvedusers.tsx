@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import swal from 'sweetalert'
 
 import ApprovedJobs from "@/components/Company/ApprovedJobs";
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 function ApprovedUsers() {
 
   let setCompanydetails = useDispatch()
@@ -89,6 +90,7 @@ function ApprovedUsers() {
          <ApprovedJobs />
           <div className="pb-72"></div>
         </div>
+        <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

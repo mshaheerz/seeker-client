@@ -46,6 +46,8 @@ function NotifyBar() {
 
       }, [companyDetails]);
 
+      
+
   useEffect(() => {
     if (sendNotification !== null) {
       socket?.emit("send-notification", sendNotification);

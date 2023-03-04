@@ -1,15 +1,33 @@
 import { Message, Search } from "@mui/icons-material"
 import Image from "next/image";
 import Trending from "./Trending";
-import { useState } from "react";
-import { SearchUser } from "@/config/endpoints";
+import { useContext, useEffect, useState } from "react";
+import { SearchUser, UserChats } from "@/config/endpoints";
 import { useRouter } from "next/router";
+import { useSelector } from "react-redux";
+import { AppContext } from "@/context/AppContext";
+import ChatContainer from "@/components/Chat/ChatContainer";
 
 
 function Widgets() {
   const router = useRouter()
   const [user, setUser] = useState([])
+  const [chats, setchats] = useState([]);
   const [searchContainer, setSearchContainer] = useState(false)
+  const {currentChat, setCurrentChat}:any = useContext(AppContext)
+  const users = useSelector((state: any) => state.user.value);
+  useEffect(() => {
+    const getChats = async () => {
+      try {
+        const data = await UserChats(users?.userId);
+        console.log(data);
+        setchats(data?.chat);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getChats();
+  }, [users]);
   const handleSearch = async (e:any)=>{
       const data = await SearchUser(e.target.value,{'usertoken':localStorage.getItem('usertoken')})
   
@@ -59,9 +77,8 @@ function Widgets() {
     <div className="text-[#d9d9d9] space-y-3 bg-[#15181c] pt-2 rounded-xl w-11/12 xl:w-9/12">
       <h4 className="font-bold text-xl px-4">New chats</h4>
       {/* {followResults.map((result, index) => ( */}
-        <div
+        {/* <div
           className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-2 cursor-pointer transition duration-200 ease-out flex items-center"
-          
         >
           <Image
             src={'/images/some.jpg'}
@@ -78,9 +95,20 @@ function Widgets() {
           <button className="ml-auto bg-white text-black rounded-full font-bold text-sm py-1.5 px-3.5">
             chat
           </button>
-        </div>
+        </div> */}
       {/* ))} */}
-      <button className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-3 cursor-pointer transition duration-200 ease-out flex items-center justify-between w-full text-[#1d9bf0] font-light">
+
+
+      {
+       chats?.map((chat:any) => (
+        <ChatContainer onClick={()=>{
+          setCurrentChat(chat);
+          router.push('/chat')
+        }} key={chat?._id} setCurrentChat={setCurrentChat} route={true} chat={chat} currentUser={users?._id}/>
+
+       ))
+      }
+      <button onClick={()=>router.push('/chat')} className="hover:bg-white hover:bg-opacity-[0.03] px-4 py-3 cursor-pointer transition duration-200 ease-out flex items-center justify-between w-full text-[#1d9bf0] font-light">
         Show more
       </button>
     </div>

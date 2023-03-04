@@ -1,15 +1,16 @@
 import {setisopen} from '@/redux/setisopen'
 import {setpostid} from '@/redux/setpostid'
-import React from 'react'
+import React, { useContext } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Moment from "react-moment";
 import { CalendarIcon,XMarkIcon, ChartBarIcon } from '@heroicons/react/24/solid';
-import { getPosts, addComment, fetchComments } from '@/config/endpoints';
+import { getPosts, addComment, fetchComments, Notify } from '@/config/endpoints';
 import axios from '@/config/axios';
 import { refreshComment } from '@/redux/refreshcomment';
+import { AppContext } from '@/context/AppContext';
 
   
 function Modal() {
@@ -19,6 +20,9 @@ const user = useSelector((state:any)=>state.user.value)
 const isOpen = useSelector((state:any)=>state.setisopen.value)
 const postId = useSelector((state:any)=>state.setpostid.value)
 const dispatchpostid = useDispatch()
+const {
+  sendNotification,setSendNotification
+}: any = useContext(AppContext);
 //setpostid
 const dispatchisopen = useDispatch()
 //setisopen
@@ -42,6 +46,13 @@ useEffect(() => {
 const sendComment = async (e:any) => {
       
     const data = await addComment({text:comment,user:user.userId,post:post._id},{"usertoken":localStorage.getItem("usertoken")})
+    await Notify({
+      authorUser:user?.userId,
+      recieverUser:post?.user?._id,
+      content:`${user?.firstname} ${user?.lastname} is commented ${comment} your post`,
+      href:`/${post?._id}`
+    })
+    setSendNotification({recieverId:post?.user?._id,notification:`${user?.firstname} ${user?.lastname} is commented ${comment} your post`})
     console.log(data)
     dispatchisopen( setisopen(false))
     setCommentRefresh(refreshComment(!commentrefresh))

@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import NotificationComponent from "@/components/Company/NotificationComponent";
 import swal from 'sweetalert'
 import { AppContext } from "@/context/AppContext";
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 
 function CompanyPage() {
   const [sendNotification, setSendNotification] = useState(null);
@@ -104,6 +105,7 @@ function CompanyPage() {
          <NotificationComponent companyId={companyDetails?._id} />
           <div className="pb-72"></div>
         </div>
+        <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

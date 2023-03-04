@@ -2,23 +2,29 @@ import Head from "next/head";
 import ShowJob from "@/components/Company/Job/ShowJob";
 import SidebarCompany from "@/components/Company/Layouts/SidebarCompany";
 import { BriefcaseIcon, EllipsisVerticalIcon,BuildingOffice2Icon } from "@heroicons/react/24/solid";
-import { Logout } from "@mui/icons-material";
-import { use, useEffect } from "react";
+import { Logout, QuestionAnswer } from "@mui/icons-material";
+import { use, useEffect, useState } from "react";
 import { companyAuthentication } from "@/config/companyendpoints";
 import { useRouter } from "next/router";
 import { companyInfo } from '@/redux/companyinfo'
 import { useDispatch, useSelector } from "react-redux";
+import Image from "next/image";
 import swal from 'sweetalert'
-import CompanyProfile from "@/components/User/CompanyProfile";
-import CompanyInfos from "@/components/User/CompanyInfos";
-import ApprovedJobs from "@/components/Company/ApprovedJobs";
-import CompanyProfileComponent from "@/components/Company/CompanyProfileComponent";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
-function CompanyProfilePage() {
+import { getQuestion } from "@/config/endpoints";
+
+import { Button, TextField } from "@mui/material";
+import QuestionContainer from "@/components/Company/QuestionContainer";
+function QuestionPage() {
 
   let setCompanydetails = useDispatch()
-  //companyInfo
-
+  const [questions,setQuestions] = useState<any>([])
+ const [refresh, setRefresh] =useState(false)
   let companyDetails = useSelector((state:any)=>state.companyinfo.value)
   const router = useRouter()
   useEffect(() => {
@@ -30,7 +36,7 @@ function CompanyProfilePage() {
             if(data.status ==="failed"){
               router.push('/company/login')
             }else if(data.auth){
-                router.push('/company/profile')
+            
             }else{
                 router.push('/company/login')
             }
@@ -42,6 +48,14 @@ function CompanyProfilePage() {
     invoke();
 
  }, [])
+
+ useEffect(()=>{
+    (async function(){
+      const data =  await getQuestion(companyDetails?._id)
+  
+      setQuestions(data?.question)
+    })();
+    },[companyDetails,refresh])
 
  const logout=()=>{
   swal({
@@ -73,10 +87,10 @@ function CompanyProfilePage() {
         <div className="flex-grow border-l border-r border-gray-700 max-w sm:ml-[73px] xl:ml-[370px]">
           <div className="flex item-center px-1.5 py-2 border-b border-r border-gray-700 text-[#d9d9d9] font-semibold text-xl gap-x-4 sticky top-0 z-50 bg-black">
             <div className="hoverAnimation w-9 h-9 flex items-center justify-center xl:px-0">
-              <BriefcaseIcon className="h-7 text-white" />
+              <QuestionAnswer className="h-7 text-white" />
             </div>
-            Approved users
-            <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto " onClick={()=>router.push('/company/profile')}>
+            Questions
+            <div className="text-[#d9d9d9] flex item-center justify-center hoverAnimation sm:ml-auto xl:-mr-5 ml-auto mt-auto" onClick={()=>router.push('/company/profile')}>
             <BuildingOffice2Icon className="h-10 w-10 rounded-full xl:mr-2.5"/>
               <div className="hidden xl:inline leading-4">
                 <p className="font-medium text-base">{companyDetails?.company}</p>
@@ -86,17 +100,22 @@ function CompanyProfilePage() {
             </div>
             <Logout onClick={logout} className=" h-5 pl-4 mt-4 w-9 rounded-full xl:mr-2.5 cursor-pointer  "/>
           </div>
-          <CompanyProfileComponent company={companyDetails}/>
-          <CompanyInfos company={companyDetails}/>
-          <div className="pb-72 mt-5 text-white">
-          <h4 className="ml-5 font-semibold ">Jobs</h4>
-          <div className=" flex items-center justify-center">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-2 p-5 cursor-pointer">
-</div>
-            </div>
-          </div>
+         
+        {
+          questions?.length===0 && (
+            <div className="text-white text-center text-lg mt-5 font-bold">No questions found</div>
+          )
+        }
+       {
+          questions?.map((qs:any)=>(
+            <QuestionContainer key={qs?._id} setRefresh={setRefresh} refresh={refresh} qs={qs} />
+          ))
+       }
+
+
+          <div className="pb-72"></div>
         </div>
-        <CompanyBottomNavigationBar />
+       <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 
@@ -108,4 +127,4 @@ function CompanyProfilePage() {
   );
 }
 
-export default CompanyProfilePage;
+export default QuestionPage;

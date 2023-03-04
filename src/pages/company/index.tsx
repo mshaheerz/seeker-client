@@ -10,6 +10,7 @@ import { companyInfo } from '@/redux/companyinfo'
 import { useDispatch, useSelector } from "react-redux";
 
 import swal from 'sweetalert'
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 function CompanyPage() {
 
   let setCompanydetails = useDispatch()
@@ -85,6 +86,7 @@ function CompanyPage() {
           <ShowJob />
           <div className="pb-72"></div>
         </div>
+       <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

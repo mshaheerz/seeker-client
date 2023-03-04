@@ -11,6 +11,7 @@ import { companyInfo } from '@/redux/companyinfo'
 import { useDispatch, useSelector } from "react-redux";
 import EditJobComponent from "@/components/Company/Job/EditJobComponent";
 import { getOneJobNoAuth } from "@/config/endpoints";
+import CompanyBottomNavigationBar from "@/components/Company/Layouts/CompanyBottomNavigationBar";
 
 function EditJob({job}:any) {
 
@@ -88,6 +89,7 @@ function EditJob({job}:any) {
           <EditJobComponent job={job} />
           <div className="pb-72"></div>
         </div>
+        <CompanyBottomNavigationBar />
         {/* feed */}
         {/* <Feed /> */}
 

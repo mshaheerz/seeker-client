@@ -13,7 +13,6 @@ function JobActions({ params, rowId, setRowId }: any) {
     setLoading(true);
 
     const { isBanned, _id, approved } = params.row;
-    console.log(isBanned, _id, approved);
     const data = await flagJob(isBanned, approved, _id, {
       admintoken: localStorage.getItem("admintoken"),
     });

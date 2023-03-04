@@ -1,11 +1,13 @@
 import axios from "./axios";
 
 
+
 export async function deletePost(formData:any) {
     try {
         const {data} = await axios.delete(`/delete_post/${formData}`)
         return data
     } catch (error) {
+    
         
     }
 }
@@ -73,7 +75,7 @@ export async function getPosts(){
         const {data} = await axios.post('/getposts',{},{headers:{"usertoken":localStorage.getItem("usertoken")}})
         return data;   
     } catch (error) {
-        console.log(error)
+      
     }
 }
 
@@ -401,3 +403,50 @@ export async function deleteAppliedJob(formData:any,header:any) {
 }
 
 
+export async function postQuestion(formData:any,header:any) {
+    try {
+        const {data} = await axios.post(`/question`,formData,{headers:header})
+        return data
+    } catch (error) {
+        
+    }
+}
+
+
+export async function getQuestion(formData:any) {
+    try {
+        const {data} = await axios.get(`/question/${formData}`)
+        return data
+    } catch (error) {
+        
+    }
+}
+
+
+export async function deleteQuestion(formData:any) {
+    try {
+        const {data} = await axios.delete(`/question/${formData}`)
+        return data
+    } catch (error) {
+        
+    }
+}
+
+export async function answerQuestion(formData:any,questionId:any,header:any) {
+    try {
+        const {data} = await axios.patch(`/question/${questionId}`,formData,{headers:header})
+        return data
+    } catch (error) {
+        
+    }
+}
+
+
+export async function deleteJob(formData:any,header:any) {
+    try {
+        const {data} = await axios.delete(`/company/job/${formData}`,{headers:header})
+        return data
+    } catch (error) {
+        
+    }
+}

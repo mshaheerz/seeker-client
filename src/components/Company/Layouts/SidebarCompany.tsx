@@ -31,7 +31,9 @@ function SidebarCompany() {
        <Link href='/company/message'>
         <SidebarLinkCompany text='Messages' Icon={InboxIcon} active={false}/>
         </Link>
+        <Link href='/company/questions'>
         <SidebarLinkCompany text='Questions' Icon={Help} active={false} />
+        </Link>
         
       </div>
     

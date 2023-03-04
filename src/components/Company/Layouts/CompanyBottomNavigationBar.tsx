@@ -1,12 +1,13 @@
 import React from 'react'
 import {HomeIcon,BriefcaseIcon,HeartIcon, UserIcon,EllipsisHorizontalCircleIcon, InboxIcon, BellIcon, BuildingOffice2Icon, EllipsisVerticalIcon} from "@heroicons/react/24/solid"
 import Link from 'next/link'
-function BottomNavigationBar() {
+import { Approval, SettingsApplications } from '@mui/icons-material'
+function CompanyBottomNavigationBar() {
   return (
     <section id="bottom-navigation" className="sm:hidden  md:hidden xl:hidden lg:hidden fixed inset-x-0 bottom-0 z-10 bg-black text-white shadow">
     <div id="tabs" className="flex justify-between">
-        <Link href="/" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
-        <HomeIcon className="inline-block mb-1 h-7 " />
+        <Link href="/company" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <BriefcaseIcon className="inline-block mb-1 h-7 " />
             {/* <svg width="25" height="25" viewBox="0 0 42 42" className="inline-block mb-1">
             <g stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                 <path d="M21.0847458,3.38674884 C17.8305085,7.08474576 17.8305085,10.7827427 21.0847458,14.4807396 C24.3389831,18.1787365 24.3389831,22.5701079 21.0847458,27.6548536 L21.0847458,42 L8.06779661,41.3066256 L6,38.5331279 L6,26.2681048 L6,17.2542373 L8.88135593,12.4006163 L21.0847458,2 L21.0847458,3.38674884 Z" fill="currentColor" fill-opacity="0.1"></path>
@@ -16,22 +17,22 @@ function BottomNavigationBar() {
                 <rect fill="currentColor" transform="translate(12.000000, 11.313708) rotate(-45.000000) translate(-12.000000, -11.313708) " x="-3" y="10.3137085" width="30" height="2" rx="1"></rect>
             </g>
             </svg> */}
-            <span className="tab tab-home block text-xs">Home</span>
+            <span className="tab tab-home block text-xs">Jobs</span>
         </Link>
-        <Link href="/jobs" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <Link href="/company/applications" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
            
-            <BriefcaseIcon className="inline-block mb-1 h-7 "/>
-            <span className="tab tab-kategori block text-xs">Jobs</span>
+            <SettingsApplications className="inline-block mb-1 h-7 "/>
+            <span className="tab tab-kategori block text-xs">Applications</span>
         </Link>
-        <Link href="/companies" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
-            <BuildingOffice2Icon className="inline-block mb-1 h-7 "/>
-            <span className="tab tab-explore block text-xs">Company</span>
+        <Link href="/company/approvedusers" className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+            <Approval className="inline-block mb-1 h-7 "/>
+            <span className="tab tab-explore block text-xs">Approved users</span>
         </Link>
-        <Link href={"/notification"} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <Link href={"/company/notification"} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
            <BellIcon className="inline-block mb-1 h-7 " />
             <span className="tab tab-whishlist block text-xs">Notification</span>
         </Link>
-        <Link href={"/chat"} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
+        <Link href={"/company/message"} className="w-full focus:text-teal-500 hover:text-teal-500 justify-center inline-block text-center pt-2 pb-1">
            <InboxIcon className="inline-block mb-1 h-7 "/>
             <span className="tab tab-account block text-xs">Message</span>
         </Link>
@@ -40,4 +41,4 @@ function BottomNavigationBar() {
   )
 }
 
-export default BottomNavigationBar
+export default CompanyBottomNavigationBar

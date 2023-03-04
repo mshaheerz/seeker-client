@@ -18,7 +18,7 @@ function ChatWidgets({chats,currentUser,setCurrentChat}:any) {
   }
 
   return (
-    <div className="hidden lg:inline ml-8 xl:w-[450px] py-1 space-y-5">
+    <div className=" sm:inline lg:inline sm:ml-8 xl:w-[450px] py-1 space-y-5">
     <div className="sticky top-0 py-1.5 bg-black z-50 w-11/12 xl:w-9/12">
       <div className="flex items-center bg-[#202327] p-3 rounded-full relative">
         <Search className="text-gray-500 h-5 z-50" />
@@ -33,7 +33,7 @@ function ChatWidgets({chats,currentUser,setCurrentChat}:any) {
        
       </div> 
       {searchContainer &&
-      <div className="bg-black   w-auto rounded  justify-center text-[#d9d9d9]">
+      <div className="bg-black    w-auto rounded  justify-center text-[#d9d9d9]">
         {
           user && user.map((user:any)=>
           <div key={user?._id} className="bg-[#202327] flex flex-shrink items-center rounded border-b border-spacing-1">
@@ -48,7 +48,7 @@ function ChatWidgets({chats,currentUser,setCurrentChat}:any) {
     </div>
 
     <div className="text-[#d9d9d9] space-y-3 bg-[#15181c] pt-2 rounded-xl w-11/12 xl:w-10/12">
-      <h4 className="font-bold text-xl px-4">New chats</h4>
+      <h4 className="font-bold sm:text-xl text-sm sm:px-4 ">New chats</h4>
       {chats?.map((chat:any) => (
         <ChatContainer onClick={()=>{setCurrentChat(chat); console.log('hehe');
         }} key={chat?._id} setCurrentChat={setCurrentChat} chat={chat} currentUser={currentUser}/>

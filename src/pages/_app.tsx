@@ -18,14 +18,15 @@ import NotifyBar from '@/components/User/NotifyBar'
 export default function App({ Component, pageProps }: AppProps<{session:Session}>) {
 
 
-  Router.events.on('routeChangeStart', () => NProgress.start()); Router.events.on('routeChangeComplete', () => NProgress.done()); Router.events.on('routeChangeError', () => NProgress.done());
+  // Router.events.on('routeChangeStart', () => NProgress.start()); Router.events.on('routeChangeComplete', () => NProgress.done()); Router.events.on('routeChangeError', () => NProgress.done());
   const [userDetails, setUserDetails]= useState<any>({})
   const [postRefresh, setPostRefresh]= useState(false)
+  const [currentChat, setCurrentChat] = useState(null);
   const [companyDetails, setCompanyDetails]= useState<any>({})
   const [sendNotification, setSendNotification] = useState<any>(null)
   const [recieveNotification, setRecieveNotification] = useState<any>(null)
-  const [socket,setSocket]= useState<any>(io("ws://localhost:8800"))
-  
+  const [socket,setSocket]= useState<any>(io("wss://api.buyelectro.shop"))
+  //http://52.66.245.52/
   // useEffect(() => {
   //   if(socket.current ==null){
   //    socket.current = io("ws://localhost:8800")
@@ -49,14 +50,16 @@ export default function App({ Component, pageProps }: AppProps<{session:Session}
       sendNotification,
       setSendNotification,
       recieveNotification,
-      setRecieveNotification
+      setRecieveNotification,
+      currentChat,
+      setCurrentChat
     }
     }>
     
-<SessionProvider session={pageProps.session}>
+{/* <SessionProvider session={pageProps.session}> */}
   <Component {...pageProps} />
   <NotifyBar />
-</SessionProvider>
+{/* </SessionProvider> */}
 </AppContext.Provider>
 </Provider>
   );

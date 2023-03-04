@@ -27,7 +27,6 @@ function ChatPage() {
   //user
   const [chats, setchats] = useState([]);
   const [onlineUsers, setOnlineUsers] = useState([]);
-  const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
   const [recieveMessage, setRecieveMessage] = useState(null);
   const { setPostRefresh, postRefresh }: any = useContext(AppContext);
@@ -35,7 +34,7 @@ function ChatPage() {
   
   const users = useSelector((state: any) => state.user.value);
   const router = useRouter();
-  const {socket}:any = useContext(AppContext)
+  const {socket,currentChat, setCurrentChat}:any = useContext(AppContext)
 
   useEffect(() => {
     if (localStorage.getItem("usertoken")) {

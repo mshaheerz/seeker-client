@@ -103,7 +103,7 @@ function Login() {
             localStorage.setItem('usertoken',response.data.token);
             router.push('/')
           }else{
-            toast.error(`OOPS! ${response?.data?.message}`, {
+            toast.error(`OOPSs! ${response?.data?.message}`, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -114,7 +114,7 @@ function Login() {
               theme: "dark",
               });
           }
-        }).catch((error)=>{
+        }).catch((error:any)=>{
           toast.warn(`OOPS! ${error?.message}`, {
             position: "top-right",
             autoClose: 5000,

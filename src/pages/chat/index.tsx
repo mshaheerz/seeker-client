@@ -30,6 +30,7 @@ function ChatPage() {
   const [sendMessage, setSendMessage] = useState(null);
   const [recieveMessage, setRecieveMessage] = useState(null);
   const { setPostRefresh, postRefresh }: any = useContext(AppContext);
+  const [refresh,setRefresh]= useState(false);
   // const socket: any = useRef();
   
   const users = useSelector((state: any) => state.user.value);
@@ -97,7 +98,7 @@ function ChatPage() {
       }
     };
     getChats();
-  }, [users]);
+  }, [users,refresh]);
 
   const logout = () => {
     swal({
@@ -144,6 +145,8 @@ function ChatPage() {
               setSendMessage={setSendMessage}
               chat={currentChat}
               currentUser={users?._id}
+              refresh={refresh}
+              setRefresh={setRefresh}
             />
           </div>
         </div>
@@ -155,6 +158,9 @@ function ChatPage() {
           setCurrentChat={setCurrentChat}
           chats={chats}
           currentUser={users?.userId}
+          refresh={refresh}
+          setRefresh={setRefresh}
+         
         />
 
         {/* modal */}

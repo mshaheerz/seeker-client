@@ -26,7 +26,7 @@ function Trending() {
         src='/images/employer.png'
         width={100}
         height={100}
-        objectFit="cover"
+        // objectFit="cover"
         alt={""}        />
         
       {/* {result.img ? (

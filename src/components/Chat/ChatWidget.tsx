@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 import ChatContainer from "./ChatContainer";
 import { useSelector } from "react-redux";
 
-function ChatWidgets({chats,currentUser,setCurrentChat}:any) {
+function ChatWidgets({chats,currentUser,setCurrentChat,setRefresh,refresh}:any) {
   const users = useSelector((state:any)=>state.user.value)
   const router = useRouter()
   const [user, setUser] = useState<any>([])
@@ -50,8 +50,8 @@ function ChatWidgets({chats,currentUser,setCurrentChat}:any) {
     <div className="text-[#d9d9d9] space-y-3 bg-[#15181c] pt-2 rounded-xl w-11/12 xl:w-10/12">
       <h4 className="font-bold sm:text-xl text-sm sm:px-4 ">New chats</h4>
       {chats?.map((chat:any) => (
-        <ChatContainer onClick={()=>{setCurrentChat(chat); console.log('hehe');
-        }} key={chat?._id} setCurrentChat={setCurrentChat} chat={chat} currentUser={currentUser}/>
+        <ChatContainer onClick={()=>{setCurrentChat(chat);
+        }} key={chat?._id} setCurrentChat={setCurrentChat} chat={chat} refresh={refresh} setRefresh={setRefresh} currentUser={currentUser}/>
 
        ))} 
    

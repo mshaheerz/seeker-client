@@ -1,4 +1,4 @@
-import { GetChatUsers, addMessages, getMessages } from "@/config/endpoints";
+import { GetChatUsers, addMessages, getMessages, messageSortHelper } from "@/config/endpoints";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import style from "@/styles/Home.module.css";
@@ -9,6 +9,7 @@ function ChatBox({
   setSendMessage,
   recieveMessage,
   refresh,
+  setRefresh
 }: any) {
   const [userData, setUserData] = useState<any>(null);
   const users = useSelector((state: any) => state.user.value);
@@ -26,7 +27,7 @@ function ChatBox({
   useEffect(() => {
     const userId = chat?.members?.find((id: any) => id !== users?.userId);
     const invoke = async () => {
-      const data = await GetChatUsers(userId);
+      const data = await GetChatUsers(userId,chat?._id);
       setUserData(data?.user);
     };
 
@@ -35,6 +36,7 @@ function ChatBox({
 
   useEffect(() => {
     const fetchmessages = async () => {
+      const userId = chat?.members?.find((id: any) => id !== users?.userId);
       const data = await getMessages(chat._id);
       setMessages(data);
     };
@@ -57,8 +59,11 @@ function ChatBox({
     // send ,message to database
     try {
       const data = await addMessages(message);
+      await messageSortHelper(chat?._id)
+      setRefresh(!refresh)
       console.log("Inside add message");
       setMessages([...messages, data]);
+      
       setNewMessage("");
     } catch (error) {
       console.log(error);

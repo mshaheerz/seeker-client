@@ -297,7 +297,7 @@ function UserSetup() {
                 </Grid>
 
                 <Grid item xs={12}>
-                  <FormControl sx={{ m: 0, minWidth: 200, maxWidth: 470 }}>
+                  <FormControl fullWidth>
                     <InputLabel id="demo-controlled-open-select-label">
                       Job type
                     </InputLabel>
@@ -355,7 +355,7 @@ function UserSetup() {
               </Grid>
            
               <Button
-               
+                sx={{color:'black'}}
                 type="submit"
                 fullWidth
                 variant="contained"

@@ -16,6 +16,7 @@ function Widgets() {
   const [searchContainer, setSearchContainer] = useState(false)
   const {currentChat, setCurrentChat}:any = useContext(AppContext)
   const users = useSelector((state: any) => state.user.value);
+  const [refresh,setRefresh] = useState(false);
   useEffect(() => {
     const getChats = async () => {
       try {
@@ -27,7 +28,7 @@ function Widgets() {
       }
     };
     getChats();
-  }, [users]);
+  }, [users,refresh]);
   const handleSearch = async (e:any)=>{
       const data = await SearchUser(e.target.value,{'usertoken':localStorage.getItem('usertoken')})
   
@@ -104,7 +105,7 @@ function Widgets() {
         <ChatContainer onClick={()=>{
           setCurrentChat(chat);
           router.push('/chat')
-        }} key={chat?._id} setCurrentChat={setCurrentChat} route={true} chat={chat} currentUser={users?._id}/>
+        }} key={chat?._id} setCurrentChat={setCurrentChat} refresh={refresh} setRefresh={setRefresh} route={true} chat={chat} currentUser={users?._id}/>
 
        ))
       }

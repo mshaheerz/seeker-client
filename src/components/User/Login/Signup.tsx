@@ -15,6 +15,7 @@ import {
   Container,
   Typography,
   Box,
+  colors,
 } from "@mui/material";
 import axios from "@/config/axios";
 import React, { use, useState, useContext, useEffect } from "react";
@@ -22,6 +23,7 @@ import { useRouter } from "next/router";
 import { useDispatch } from "react-redux";
 import { AppContext } from "@/context/AppContext";
 import { auth } from "@/firebase/firebase";
+import { bgBG } from "@mui/x-data-grid";
 
 const darkTheme = createTheme({
   palette: {
@@ -335,15 +337,11 @@ export default function SignUp() {
               </Grid>
 
               <Grid item xs={12}>
-                <FormControlLabel
-                  control={
-                    <Checkbox value="allowExtraEmails" color="primary" />
-                  }
-                  label="Remember me"
-                />
+              
               </Grid>
             </Grid>
             <Button
+              sx={{color:'black'}}
               type="submit"
               fullWidth
               variant="contained"

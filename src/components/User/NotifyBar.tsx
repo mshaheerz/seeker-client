@@ -22,27 +22,29 @@ function NotifyBar() {
   // },[])
 
   useEffect(() => {
-    if(socket.current ==null){
+    if(users !=null){
       // socket.current = io("ws://localhost:8800");
       socket.emit("new-user-add", users?.userId);
-    }
+  
 
       socket.on("get-users", (userss:any) => {
         setOnlineUsers(userss);
         console.log('online users',onlineUsers);
       });
+    }
 
     }, [users]);
 
     useEffect(() => {
-      if(socket.current==null){
+      if(companyDetails != null){
         socket.emit("new-user-add", companyDetails?._id);
-      }
+     
 
         socket.on("get-users", (userss:any) => {
           setOnlineUsers(userss);
           console.log('online users',onlineUsers);
         });
+      }
 
       }, [companyDetails]);
 

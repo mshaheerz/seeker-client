@@ -416,6 +416,7 @@ export default function CompanySignup() {
               <div id='recaptcha-div' />
             </Grid>
             <Button
+             sx={{color:'black'}}
               style={{display:flag ? 'block' : 'none'}}
               type="submit"
               variant="contained"
@@ -428,6 +429,7 @@ export default function CompanySignup() {
 
 
             <Button
+             sx={{color:'black'}}
               style={{display:!flag ? 'block' : 'none'}}
               onClick={async ()=>{
                 try {

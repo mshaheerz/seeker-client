@@ -1,29 +1,32 @@
 import React, { useEffect, useState } from 'react'
 import Image from "next/image";
-import { getOneUserNoAuth,GetChatUsers } from '@/config/endpoints';
+import { GetChatUsers } from '@/config/endpoints';
 import { useSelector } from 'react-redux';
 import { useRouter } from 'next/router';
-function ChatContainer({chat,currentUser,setCurrentChat,route}:any) {
+function ChatContainer({chat,currentUser,setCurrentChat,route,setRefresh,refresh}:any) {
   const router = useRouter()
     const [userData, setUserData] = useState<any>(null)
+    const [chatCount,setChatCount]=useState<any>(null)
    const users = useSelector((state:any)=>state.user.value)
     useEffect(()=> {
 
         const userId = chat?.members.find((id:any)=>id!==users?.userId)
         const invoke= async()=>{
-        const data = await GetChatUsers(userId)
+        const data = await GetChatUsers(userId,chat?._id)
         console.log(data)
         setUserData(data?.user)
         console.log(data)
+        setChatCount(data?.result)
 
         }
 
         invoke();
-    },[])
+    },[refresh,chat])
   return (
     <div
           onClick={()=>{
             setCurrentChat(chat)
+            setRefresh(!refresh)
             if(route) router.push('/chat')
 
           
@@ -34,7 +37,14 @@ function ChatContainer({chat,currentUser,setCurrentChat,route}:any) {
             width={50}
             height={50}
             // objectFit="cover"
-            className="rounded-full object-cover" alt={""}          />
+            className="relative rounded-full object-cover" alt={""}          />
+            {
+              chatCount !=0 && (
+                <div className='bg-red-600 -mt-9 absolute rounded-full h-6 w-6 text-white'>
+            <p className='text-center'>{chatCount}</p>
+                </div>
+              )
+            }
           <div className="ml-4 leading-5 group hidden sm:block">
             <h4 className="font-bold group-hover:underline">
             {userData?.firstname? userData?.firstname : userData?.company} {userData?.lastname}

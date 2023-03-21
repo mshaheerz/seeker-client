@@ -1,9 +1,25 @@
 import { getDashboardCounts } from "@/config/companyendpoints";
 import { useEffect, useState } from "react";
-
+import {Chart} from 'chart.js/auto';
+import { Line } from "react-chartjs-2";
+// import { getRelativePosition } from 'chart.js/helpers';
 
 function Dashboard() {
     const [counts , setCounts] = useState<any>({})
+    const labels = ["January", "February", "March", "April", "May", "June"];
+
+      const data = {
+        labels: labels,
+        datasets: [
+          {
+            label: "My First dataset",
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [0, 10, 5, 2, 20, 30, 45],
+          },
+        ],
+      };
+
     useEffect(() => {
         async function invoke(){
             const data:any = await getDashboardCounts({'admintoken':localStorage.getItem('admintoken')})
@@ -46,7 +62,7 @@ function Dashboard() {
             <div className="flex flex-col md:flex-row md:max-w-xl rounded-lg bg-black shadow-lg border">
               <img
                 className=" w-full h-96 md:h-auto object-cover md:w-48 rounded-t-lg md:rounded-none md:rounded-l-lg"
-                src="https://www.skytechindia.com/images/company.jpg"
+                src="https://www.commercialsonrent.com/images/career-commercialsonrent.png"
                 alt=""
               />
               <div className="p-6 flex flex-col justify-start">
@@ -82,12 +98,14 @@ function Dashboard() {
             </div>
           </div>
 
-
  
 
           
 
 
+        </div>
+        <div>
+        {/* <Line data={data}  /> */}
         </div>
       </div>
     </div>

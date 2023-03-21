@@ -1,10 +1,10 @@
-import { useEffect, useState } from "react"; 
+import { useEffect, useState } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/router";
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer, toast } from 'react-toastify';
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 import {
   Avatar,
   Button,
@@ -20,7 +20,7 @@ import {
   Box,
 } from "@mui/material";
 import Image from "next/image";
-import {useSession,signIn,signOut} from 'next-auth/react'
+import { useSession, signIn, signOut } from "next-auth/react";
 import axios from "@/config/axios";
 
 const darkTheme = createTheme({
@@ -59,51 +59,66 @@ function Copyright(props: any) {
   // const user = useSelector((state)=>state.user.value)
 }
 
-
 function Login() {
-  let dispatch = useDispatch()
-  const router = useRouter()
-  let smth = useSelector((state:any)=>state?.user)
-  const [email, setEmail] = useState(false)
-  const [emailerr, setEmailerr] = useState('')
-
+  let dispatch = useDispatch();
+  const router = useRouter();
+  let smth = useSelector((state: any) => state?.user);
+  const [email, setEmail] = useState(false);
+  const [emailerr, setEmailerr] = useState("");
 
   useEffect(() => {
-    if(localStorage.getItem('usertoken')){
-       axios.get('/isUserAuth',{
-         headers:{'usertoken':localStorage.getItem("usertoken")}
-       }).then((response)=>{
-         if(response.data.status==="failed"){
-           router.push('/auth')
-         }else if(response.data.auth){
-      
-           router.push('/')
-         }else{
-           router.push('/auth')
-         }
-       })
-    }else{
-     router.push('/auth')
+    if (localStorage.getItem("usertoken")) {
+      axios
+        .get("/isUserAuth", {
+          headers: { usertoken: localStorage.getItem("usertoken") },
+        })
+        .then((response) => {
+          if (response.data.status === "failed") {
+            router.push("/auth");
+          } else if (response.data.auth) {
+            router.push("/");
+          } else {
+            router.push("/auth");
+          }
+        });
+    } else {
+      router.push("/auth");
     }
-   }, [])
+  }, []);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    let regEmail =/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/
-    console.log(smth)
+    let regEmail =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    console.log(smth);
     let obj = {
       email: data.get("email"),
       password: data.get("password"),
     };
-    if(obj.email && obj.password){
-      if(regEmail.test(obj.email.toString())){
-        axios.post('/signin',obj).then((response)=>{
-          if(response.data.status==='success'){
-            localStorage.setItem('usertoken',response.data.token);
-            router.push('/')
-          }else{
-            toast.error(`OOPSs! ${response?.data?.message}`, {
+    if (obj.email && obj.password) {
+      if (regEmail.test(obj.email.toString())) {
+        axios
+          .post("/signin", obj)
+          .then((response) => {
+            if (response.data.status === "success") {
+              localStorage.setItem("usertoken", response.data.token);
+              router.push("/");
+            } else {
+              toast.error(`OOPSs! ${response?.data?.message}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+              });
+            }
+          })
+          .catch((error: any) => {
+            toast.warn(`OOPS! ${error?.message}`, {
               position: "top-right",
               autoClose: 5000,
               hideProgressBar: false,
@@ -112,42 +127,21 @@ function Login() {
               draggable: true,
               progress: undefined,
               theme: "dark",
-              });
-          }
-        }).catch((error:any)=>{
-          toast.warn(`OOPS! ${error?.message}`, {
-            position: "top-right",
-            autoClose: 5000,
-            hideProgressBar: false,
-            closeOnClick: true,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
             });
-        })
-      }else{
+          });
+      } else {
         setEmail(true);
-        setEmailerr('Please provide email');
+        setEmailerr("Please provide email");
       }
-    }else{
-      console.log('all fields are required')
+    } else {
+      console.log("all fields are required");
     }
-    
-
-
-
-
-    
-    
-
-
   };
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline />
       <Container component="main" maxWidth="sm">
-      <ToastContainer />
+        <ToastContainer />
         <CssBaseline />
         <Box
           sx={{
@@ -202,10 +196,13 @@ function Login() {
               label="Remember me"
             />
             <Button
+             sx={{color:'black'}}
               type="submit"
               fullWidth
               variant="contained"
-              className={'mt-3 mb-2 bg-white text-black hover:bg-black hover:text-white '}
+              className={
+                "mt-3 mb-2 bg-white text-black hover:bg-black hover:text-white"
+              }
             >
               Sign In
             </Button>

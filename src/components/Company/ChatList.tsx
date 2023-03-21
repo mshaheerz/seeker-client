@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import OneChat from "./OneChat"
 
 
-function ChatList({companyDetails,chats,setCurrentChat}:any) {
+function ChatList({companyDetails,chats,setCurrentChat,refresh,setRefresh}:any) {
   
     
   return (
@@ -14,7 +14,7 @@ function ChatList({companyDetails,chats,setCurrentChat}:any) {
       {
         
         chats?.map((chat:any)=>
-           <OneChat key={chat?._id} setCurrentChat={setCurrentChat} chat={chat} companyDetails={companyDetails} onClick={()=>setCurrentChat(chat)} /> 
+           <OneChat key={chat?._id} onClick={()=>{setCurrentChat(chat)}} refresh={refresh} setRefresh={setRefresh} setCurrentChat={setCurrentChat} chat={chat} companyDetails={companyDetails}  /> 
         )
       }
       

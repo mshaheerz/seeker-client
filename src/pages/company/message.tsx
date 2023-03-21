@@ -27,6 +27,7 @@ function MessagePage() {
   const [onlineUsers, setOnlineUsers] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sendMessage, setSendMessage] = useState(null);
+  const [refresh, setRefresh]= useState(false);
 
   const [recieveMessage, setRecieveMessage] = useState(null);
 
@@ -93,7 +94,7 @@ function MessagePage() {
           }
         };
         getChats();
-      }, [companyDetails]);
+      }, [companyDetails,refresh]);
 
  const logout=()=>{
   swal({
@@ -139,8 +140,8 @@ function MessagePage() {
             <Logout onClick={logout} className=" h-5 pl-4 mt-4 w-9 rounded-full xl:mr-2.5 cursor-pointer  "/>
           </div>
           <div className=" flex items-center justify-start">
-           <ChatList setCurrentChat={setCurrentChat} chats={chats}  companyDetails={companyDetails} />
-           <ChatBoxCompany recieveMessage={recieveMessage} setSendMessage={setSendMessage} chat={currentChat} companyDetails={companyDetails} />
+           <ChatList setRefresh={setRefresh} refresh={refresh} setCurrentChat={setCurrentChat} chats={chats}  companyDetails={companyDetails} />
+           <ChatBoxCompany refresh={refresh} setRefresh={setRefresh} recieveMessage={recieveMessage} setSendMessage={setSendMessage} chat={currentChat} companyDetails={companyDetails} />
      
     </div>
           <div className=""></div>

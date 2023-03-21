@@ -1,9 +1,9 @@
-import { GetChatUsers, addMessages, getMessages } from "@/config/endpoints";
+import { GetChatUsers, addMessages, getMessages, messageSortHelper } from "@/config/endpoints";
 import { useEffect, useRef, useState } from "react";
   import style from "@/styles/Home.module.css";
   import Moment from "react-moment";
 
-function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:any) {
+function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage,refresh,setRefresh}:any) {
   const [messages, setMessages] = useState<any>([]);
   const [newMessage, setNewMessage] = useState("");
   const [userData, setUserData] = useState<any>(null);
@@ -12,7 +12,7 @@ function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:a
   useEffect(() => {
     const userId = chat?.members?.find((id: any) => id !== companyDetails?._id);
     const invoke = async () => {
-      const data = await GetChatUsers(userId);
+      const data = await GetChatUsers(userId,chat?._id);
       setUserData(data?.user);
     };
     
@@ -46,7 +46,6 @@ function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:a
 
     const handleSend = async (e: any) => {
       e.preventDefault();
-  
       const message = {
         senderId: companyDetails?._id,
         text: newMessage,
@@ -57,18 +56,19 @@ function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:a
               //send ,message to socket server
           console.log(message)
           setSendMessage({ ...message, recieverId });
+        
       // send ,message to database
       try {
+       
         const data = await addMessages(message);
+        await messageSortHelper(chat?._id)
+        setRefresh(!refresh)
         setMessages([...messages, data]);
         setNewMessage("");
       } catch (error) {
         console.log(error);
       }
-  
-  
-      
-    
+
       };
   
 
@@ -99,7 +99,7 @@ function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:a
           {/* chat box messages */}
 
           <div className={`${style.chatbody} no-scrollbar`}>
-            {messages.map((message:any) => (
+            {messages?.map((message:any) => (
         
                 <div
                   ref={scroll}
@@ -124,6 +124,7 @@ function ChatBoxCompany({chat, companyDetails, setSendMessage, recieveMessage}:a
             <div>+</div>
             <input
               type="text"
+              value={newMessage}
               onChange={(e: any) => setNewMessage(e.target.value)}
               className="text-white border border-white  bg-black  "
               placeholder="type a message"

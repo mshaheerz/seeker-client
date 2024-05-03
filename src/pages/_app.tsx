@@ -25,7 +25,7 @@ export default function App({ Component, pageProps }: AppProps<{session:Session}
   const [companyDetails, setCompanyDetails]= useState<any>({})
   const [sendNotification, setSendNotification] = useState<any>(null)
   const [recieveNotification, setRecieveNotification] = useState<any>(null)
-  const [socket,setSocket]= useState<any>(io("wss://socket.buyelectro.shop",{transports: ['websocket']}))
+  const [socket,setSocket]= useState<any>(io("wss://seeker-socket.onrender.com",{transports: ['websocket']}))
   // const [socket,setSocket]= useState<any>(io("ws://localhost:8800",{transports: ['websocket']}))
 
 

@@ -31,7 +31,7 @@
     "chart.js": "^4.2.1",
     "emoji-mart": "^5.5.1",
     "eslint": "^8.35.0",
-    "eslint-config-next": "13.1.2",
+    "eslint-config-next": "13.5.11",
     "eslint-plugin-react": "^7.32.2",
     "firebase": "^9.16.0",
     "multiselect-react-dropdown": "^2.0.25",

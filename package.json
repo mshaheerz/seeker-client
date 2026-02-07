@@ -22,7 +22,7 @@
     "@mui/x-data-grid": "^5.17.22",
     "@next/font": "13.1.2",
     "@reduxjs/toolkit": "^1.9.1",
-    "@types/node": "18.11.18",
+    "@types/node": "18.19.130",
     "@types/react": "18.0.27",
     "@types/react-dom": "18.0.10",
     "@typescript-eslint/eslint-plugin": "^5.54.0",
